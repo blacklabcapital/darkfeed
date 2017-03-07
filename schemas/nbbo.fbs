@@ -1,0 +1,22 @@
+include "timestamps.fbs";
+include "quote_conditions.fbs";
+include "exchanges.fbs";
+include "symbol.fbs";
+include "price.fbs";
+namespace darkfeed.schemas.fb;
+
+table NBBO {
+    seq_num:ulong;
+    symbol:Symbol;
+    best_bid_exg:MIC;
+    best_ask_exg:MIC;
+    ts:Timestamp;
+    best_bid:Price;
+    best_ask:Price;
+    best_bid_size:uint;
+    best_ask_size:uint;
+    best_bid_condition:QuoteCondition;
+    best_ask_condition:QuoteCondition;
+}
+
+root_type NBBO;

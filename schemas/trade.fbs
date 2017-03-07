@@ -1,0 +1,20 @@
+include "timestamps.fbs";
+include "trade_conditions.fbs";
+include "symbol.fbs";
+include "exchanges.fbs";
+include "price.fbs";
+namespace darkfeed.schemas.fb;
+
+table Trade {
+    seq_num:ulong;
+    symbol:Symbol;
+    reporting_exg:MIC;
+    ts:Timestamp;
+    price:Price;
+    size:uint;
+    vol:uint;
+    t_vol:uint;
+    condition:TradeCondition;
+}
+
+root_type Trade;

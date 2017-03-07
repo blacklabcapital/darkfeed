@@ -1,0 +1,12 @@
+[submodule "cpp/external/xxHash"]
+	path = cpp/external/xxHash
+	url = https://github.com/Cyan4973/xxHash.git
+	branch = master
+[submodule "cpp/external/simple-binary-encoding"]
+	path = cpp/external/simple-binary-encoding
+	url = https://github.com/real-logic/simple-binary-encoding.git
+	branch = master
+[submodule "cpp/external/cctz"]
+	path = cpp/external/cctz
+	url = https://github.com/google/cctz.git
+	branch = master

@@ -1,0 +1,28 @@
+include "timestamps.fbs";
+include "quote_conditions.fbs";
+include "exchanges.fbs";
+include "symbol.fbs";
+include "price.fbs";
+namespace darkfeed.schemas.fb;
+
+enum OptionType : ubyte {
+    put=0,
+    call=1
+}
+
+table OptionQuote {
+    seq_num:ulong;
+    symbol:Symbol;
+    option_type:OptionType;
+    reporting_exg:MIC;
+    ts:Timestamp;
+    expiration:Timestamp;
+    strike:Price;
+    bid:Price;
+    ask:Price;
+    bid_size:uint;
+    ask_size:uint;
+    condition:QuoteCondition;
+}
+
+root_type OptionQuote;

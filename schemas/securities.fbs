@@ -1,0 +1,10 @@
+namespace darkfeed.schemas;
+
+enum SecurityType : ubyte {
+    equity,
+    future,
+    option,
+    forex,
+    swap,
+    bond,
+}

@@ -1,0 +1,29 @@
+include "halt.fbs";
+include "exchanges.fbs";
+include "symbol.fbs";
+include "timestamps.fbs";
+namespace darkfeed.schemas.fb;
+
+struct SecondState {
+    ts:Timestamp;
+    bid:uint;
+    ask:uint;
+    last:uint;
+    low:uint;
+    high:uint;
+    vol:uint;
+    t_vol:uint;
+    halt:HaltType; 
+}
+
+table SSBEntry {
+    symbol:Symbol;
+    raw_sym:string (key);
+    states:[SecondState];
+}
+
+table SSB {
+    entries:[SSBEntry];
+}
+
+root_type SSB;

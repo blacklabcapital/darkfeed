@@ -1,0 +1,21 @@
+include "exchanges.fbs";
+namespace darkfeed.schemas.fb;
+
+enum IssueType : ubyte {
+    normal,
+    preferred,
+    warrant,
+    right,
+    unit,
+    non_voting,
+    mini,
+    when_issued,
+    other,
+}
+
+table Symbol {
+    root:string;
+    listing_exg:MIC;
+    issue_type:IssueType;
+    series:byte;
+}

@@ -1,0 +1,19 @@
+PROJECT_NAME           = "@CMAKE_PROJECT_NAME@"
+PROJECT_NUMBER         = @VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@
+STRIP_FROM_PATH        = @PROJECT_SOURCE_DIR@ \
+                         @PROJECT_BINARY_DIR@
+INPUT                  = @doxy_main_page@ \
+                         @PROJECT_SOURCE_DIR@ \
+                         @PROJECT_BINARY_DIR@
+FILE_PATTERNS          = *.hpp \
+                         *.cpp \
+                         *.h
+RECURSIVE              = YES
+GENERATE_MAN           = YES
+GENERATE_LATEX         = YES
+USE_MDFILE_AS_MAINPAGE = @doxy_main_page@
+EXCLUDE_PATTERNS      += */tests/*
+EXCLUDE_PATTERNS      += */googletest/*
+DISABLE_INDEX = NO
+GENERATE_TREEVIEW = YES
+HAVE_DOT = YES

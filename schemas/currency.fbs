@@ -1,0 +1,20 @@
+namespace darkfeed.schemas.fb;
+
+enum Currency : ubyte {
+    ///< US Dollars
+    USD,
+    ///< Australian Dollars
+    AUD,
+    ///< Canadian Dollars
+    CAD,
+    ///< Swiss Francs
+    CHF,
+    ///< Euro
+    EUR,
+    ///< Pounds Sterling (UK)
+    GBP,
+    ///< Hong Kong Dollar
+    HKD,
+    ///< Japanese Yen
+    JPY,
+}

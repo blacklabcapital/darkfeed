@@ -1,0 +1,20 @@
+include "timestamps.fbs";
+include "quote_conditions.fbs";
+include "exchanges.fbs";
+include "symbol.fbs";
+include "price.fbs";
+namespace darkfeed.schemas.fb;
+
+table EquityQuote {
+    seq_num:ulong;
+    symbol:Symbol;
+    reporting_exg:MIC;
+    ts:Timestamp;
+    bid:Price;
+    ask:Price;
+    bid_size:uint;
+    ask_size:uint;
+    condition:QuoteCondition;
+}
+
+root_type EquityQuote;

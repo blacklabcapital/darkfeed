@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sbe:messageSchema xmlns:sbe="http://fixprotocol.io/2016/sbe"
+                   package="darkfeed.schemas.sbe"
+                   id="3116"
+                   version="0"
+                   semanticVersion="0.0"
+                   description="Darkfeed Base Schema"
+                   byteOrder="littleEndian">
+    <types>
+        <composite name="messageHeader" description="Message Versioning and Length">
+            <type name="checksum" primitiveType="uint16"/>
+            <type name="msgLength" primitiveType="uint16"/>
+            <type name="blockLength" primitiveType="uint16"/>
+            <type name="templateId" primitiveType="uint16"/>
+            <type name="schemaId" primitiveType="uint16"/>
+            <type name="version" primitiveType="uint16"/>
+        </composite>
+        <composite name="groupSizeEncoding" description="Repeating group dimensions">
+            <type name="blockLength" primitiveType="uint16"/>
+            <type name="numInGroup" primitiveType="uint16"/>
+        </composite>
+        <composite name="varDataEncoding">
+            <type name="length" primitiveType="uint32" maxValue="1073741824"/>
+            <type name="varData" primitiveType="uint8" length="0" characterEncoding="UTF-8"/>
+        </composite>
+    </types>
+    <types>
+        <enum name="Bool" encodingType="uint8" semanticType="Boolean">
+            <validValue name="FALSE">0</validValue>
+            <validValue name="TRUE">1</validValue>
+        </enum>
+        <enum name="Currency" encodingType="uint8">
+            <validValue name="USD">0</validValue>
+            <validValue name="AUD">1</validValue>
+            <validValue name="CAD">2</validValue>
+            <validValue name="CHF">3</validValue>
+            <validValue name="EUR">4</validValue>
+            <validValue name="GBP">5</validValue>
+            <validValue name="HKD">6</validValue>
+            <validValue name="JPY">7</validValue>
+        </enum>
+        <enum name="IssueType" encodingType="uint8">
+            <validValue name="normal">0</validValue>
+            <validValue name="preferred">1</validValue>
+            <validValue name="warrant">2</validValue>
+            <validValue name="right">3</validValue>
+            <validValue name="unit">4</validValue>
+            <validValue name="non_voting">5</validValue>
+            <validValue name="mini">6</validValue>
+            <validValue name="whenIssued">7</validValue>
+        </enum>
+        <enum name="HaltType" encodingType="uint8">
+            <validValue name="none">0</validValue>
+            <validValue name="news">1</validValue>
+            <validValue name="news_disseminated">2</validValue>
+            <validValue name="order_imbalance">3</validValue>
+            <validValue name="equipment_change">4</validValue>
+            <validValue name="pending_info">5</validValue>
+            <validValue name="suspended">6</validValue>
+            <validValue name="sec">7</validValue>
+            <validValue name="not_specified">8</validValue>
+            <validValue name="luld_pause">9</validValue>
+            <validValue name="marketwide_halt_level1">10</validValue>
+            <validValue name="marketwide_halt_level2">11</validValue>
+            <validValue name="marketwide_halt_level3">12</validValue>
+            <validValue name="marketwide_halt_resume">13</validValue>
+            <validValue name="luld_straddle">14</validValue>
+            <validValue name="extraordinary_market_activity">15</validValue>
+            <validValue name="etf">16</validValue>
+            <validValue name="non_compliance">17</validValue>
+            <validValue name="filings_not_current">18</validValue>
+            <validValue name="operations">19</validValue>
+            <validValue name="ipo_pending">20</validValue>
+            <validValue name="corporate_action">21</validValue>
+            <validValue name="quote_unavailable">22</validValue>
+            <validValue name="single_stock_pause">23</validValue>
+            <validValue name="single_stock_pause_resume">24</validValue>
+        </enum>
+        <enum name="HaltStatus" encodingType="uint8">
+            <validValue name="none">0</validValue>
+            <validValue name="resume">1</validValue>
+            <validValue name="delay">2</validValue>
+            <validValue name="halted">3</validValue>
+            <validValue name="no_open_no_resume">4</validValue>
+        </enum>
+        <enum name="MIC" encodingType="uint8">
+            <validValue name="NONE">0</validValue>
+            <validValue name="XNAS">1</validValue>
+            <validValue name="XNYS">2</validValue>
+            <validValue name="XASE">3</validValue>
+            <validValue name="CBOE">4</validValue>
+            <validValue name="ARCX">5</validValue>
+            <validValue name="XCIS">6</validValue>
+            <validValue name="XPHL">7</validValue>
+            <validValue name="OPRA">8</validValue>
+            <validValue name="XBOS">9</validValue>
+            <validValue name="XNGS">10</validValue>
+            <validValue name="XNCM">11</validValue>
+            <validValue name="BATS">12</validValue>
+            <validValue name="BATY">13</validValue>
+            <validValue name="EDGE">14</validValue>
+            <validValue name="EDGX">15</validValue>
+            <validValue name="XCHI">16</validValue>
+            <validValue name="XOTC">17</validValue>
+            <validValue name="EDGA">18</validValue>
+            <validValue name="SMART">19</validValue>
+            <validValue name="ICEL">20</validValue>
+            <validValue name="IEX">21</validValue>
+            <validValue name="SIP">22</validValue>
+        </enum>
+        <enum name="QuoteCondition" encodingType="uint8">
+            <validValue name="none">0</validValue>
+            <validValue name="regular">1</validValue>
+            <validValue name="active">2</validValue>
+            <validValue name="inactive">3</validValue>
+            <validValue name="exchange_best">4</validValue>
+            <validValue name="consolidated_best">5</validValue>
+            <validValue name="locked">6</validValue>
+            <validValue name="crossed">7</validValue>
+            <validValue name="depth">8</validValue>
+            <validValue name="fast_trading">9</validValue>
+            <validValue name="non_firm">10</validValue>
+            <validValue name="manual">11</validValue>
+            <validValue name="outright_price">12</validValue>
+            <validValue name="implied_price">13</validValue>
+            <validValue name="depth_on_offer">14</validValue>
+            <validValue name="depth_on_bid">15</validValue>
+            <validValue name="depth_on_bid_offer">16</validValue>
+            <validValue name="closing">17</validValue>
+            <validValue name="news">18</validValue>
+            <validValue name="trading_range">19</validValue>
+            <validValue name="order_influx">20</validValue>
+            <validValue name="due_to_related">21</validValue>
+            <validValue name="news_pending">22</validValue>
+            <validValue name="additional_info">23</validValue>
+            <validValue name="additional_info_due_to_related">24</validValue>
+            <validValue name="resume">25</validValue>
+            <validValue name="view_of_common">26</validValue>
+            <validValue name="volume_alert">27</validValue>
+            <validValue name="order_imbalance">28</validValue>
+            <validValue name="equipment">29</validValue>
+            <validValue name="no_open_resume">30</validValue>
+            <validValue name="regular_eth">31</validValue>
+            <validValue name="auto_exec">32</validValue>
+            <validValue name="auto_exec_eth">33</validValue>
+            <validValue name="fast_market_eth">34</validValue>
+            <validValue name="inactive_eth">35</validValue>
+            <validValue name="rotation">36</validValue>
+            <validValue name="rotation_eth">37</validValue>
+            <validValue name="halt">38</validValue>
+            <validValue name="halt_eth">39</validValue>
+            <validValue name="due_to_news">40</validValue>
+            <validValue name="due_to_news_pending">41</validValue>
+            <validValue name="trading_resume">42</validValue>
+            <validValue name="out_of_seq">43</validValue>
+            <validValue name="bid_specialist">44</validValue>
+            <validValue name="offer_specialist">45</validValue>
+            <validValue name="bid_offer_specialist">46</validValue>
+            <validValue name="end_of_day_sam">47</validValue>
+            <validValue name="forbidden_sam">48</validValue>
+            <validValue name="frozen_sam">49</validValue>
+            <validValue name="pre_opening_sam">50</validValue>
+            <validValue name="opening_sam">51</validValue>
+            <validValue name="open_sam">52</validValue>
+            <validValue name="surveillance_sam">53</validValue>
+            <validValue name="suspended_sam">54</validValue>
+            <validValue name="reserved_sam">55</validValue>
+            <validValue name="no_active_sam">56</validValue>
+            <validValue name="restricted">57</validValue>
+        </enum>
+        <enum name="TradeCondition" encodingType="uint8">
+            <validValue name="none">0</validValue>
+            <validValue name="regular">1</validValue>
+            <validValue name="cash">2</validValue>
+            <validValue name="avg_price">3</validValue>
+            <validValue name="cash_trade">4</validValue>
+            <validValue name="next_day_market">5</validValue>
+            <validValue name="opening_detail">6</validValue>
+            <validValue name="intraday_detail">7</validValue>
+            <validValue name="rule_127">8</validValue>
+            <validValue name="rule_155">9</validValue>
+            <validValue name="sold_last">10</validValue>
+            <validValue name="next_day">11</validValue>
+            <validValue name="opened">12</validValue>
+            <validValue name="seller">13</validValue>
+            <validValue name="sold">14</validValue>
+            <validValue name="stopped_stock">15</validValue>
+            <validValue name="imbalance_more_buyers">16</validValue>
+            <validValue name="imbalance_more_sellers">17</validValue>
+            <validValue name="opening_price">18</validValue>
+            <validValue name="manual">19</validValue>
+            <validValue name="iso">20</validValue>
+            <validValue name="bargain_condition">21</validValue>
+            <validValue name="converted_price_indicator">22</validValue>
+            <validValue name="exchange_last">23</validValue>
+            <validValue name="final_price">24</validValue>
+            <validValue name="ex_pit">25</validValue>
+            <validValue name="crossed">26</validValue>
+            <validValue name="cancel">27</validValue>
+            <validValue name="volume_only">28</validValue>
+            <validValue name="direct_plus">29</validValue>
+            <validValue name="acquisition">30</validValue>
+            <validValue name="bunched">31</validValue>
+            <validValue name="distribution">32</validValue>
+            <validValue name="bunched_sale">33</validValue>
+            <validValue name="split">34</validValue>
+            <validValue name="cancel_stopped">35</validValue>
+            <validValue name="cancel_eth">36</validValue>
+            <validValue name="cancel_stopped_eth">37</validValue>
+            <validValue name="out_of_seq_eth">38</validValue>
+            <validValue name="cancel_last_eth">39</validValue>
+            <validValue name="sold_last_eth">40</validValue>
+            <validValue name="cancel_last">41</validValue>
+            <validValue name="sold_last_sale">42</validValue>
+            <validValue name="cancel_open">43</validValue>
+            <validValue name="cancel_open_eth">44</validValue>
+            <validValue name="opened_sale_eth">45</validValue>
+            <validValue name="cancel_only">46</validValue>
+            <validValue name="cancel_only_eth">47</validValue>
+            <validValue name="late_open_eth">48</validValue>
+            <validValue name="auto_exec_eth">49</validValue>
+            <validValue name="reopen">50</validValue>
+            <validValue name="reopen_eth">51</validValue>
+            <validValue name="adjusted">52</validValue>
+            <validValue name="adjusted_eth">53</validValue>
+            <validValue name="spread">54</validValue>
+            <validValue name="spread_eth">55</validValue>
+            <validValue name="straddle">56</validValue>
+            <validValue name="straddle_eth">57</validValue>
+            <validValue name="stopped">58</validValue>
+            <validValue name="stopped_eth">59</validValue>
+            <validValue name="regular_eth">60</validValue>
+            <validValue name="combo">61</validValue>
+            <validValue name="combo_eth">62</validValue>
+            <validValue name="closing">63</validValue>
+            <validValue name="prior_ref">64</validValue>
+            <validValue name="stopped_sold_last">65</validValue>
+            <validValue name="stopped_out_of_seq">66</validValue>
+            <validValue name="fast_market">67</validValue>
+            <validValue name="auto_exec">68</validValue>
+            <validValue name="form_t">69</validValue>
+            <validValue name="basket_idx">70</validValue>
+            <validValue name="burst_basket">71</validValue>
+        </enum>
+        <enum name="OptionType" encodingType="uint8">
+            <validValue name="put">0</validValue>
+            <validValue name="call">1</validValue>
+        </enum>
+        <composite name="Price" description="Price Data Type" semanticType="Price">
+            <type name="price" description="number of units of currency as defined by precision and currency"
+                  primitiveType="uint32"/>
+            <type name="precision"
+                  description="power of 10 describing units of currency for the price. Eg; -2 with USD means cents"
+                  primitiveType="int8"/>
+            <type name="tick_size" description="minimum quotable tick size for this instrument" primitiveType="uint8"/>
+            <ref name="currency" type="Currency"/>
+        </composite>
+        <composite name="Timestamp" description="High Resolution Timestamp Data Type">
+            <type name="unix" description="unix epoch in seconds" primitiveType="uint64"/>
+            <type name="ns" description="nanoseconds past epoch" primitiveType="uint32"/>
+            <type name="utc_offset" description="utc offset of original timestamp" primitiveType="int8"/>
+            <ref name="dst" type="Bool"/>
+        </composite>
+        <composite name="Symbol" description="Standard Symbol Type">
+            <type name="root" description="Root Symbol" primitiveType="char" length="8"/>
+            <type name="series" description="Series" primitiveType="char"/>
+            <ref name="listing_exg" type="MIC"/>
+            <ref name="issue_type" type="IssueType"/>
+        </composite>
+    </types>
+    <sbe:message name="equity_quote" id="1" description="Top of book quote for equity">
+        <field name="symbol" id="1" type="Symbol"/>
+        <field name="reporting_exg" id="2" type="MIC"/>
+        <field name="ts" id="3" type="Timestamp"/>
+        <field name="seq_num" id="4" type="uint64"/>
+        <field name="bid" id="5" type="Price"/>
+        <field name="ask" id="6" type="Price"/>
+        <field name="bid_size" id="7" type="uint32"/>
+        <field name="ask_size" id="8" type="uint32"/>
+        <field name="condition" id="9" type="QuoteCondition"/>
+    </sbe:message>
+    <sbe:message name="option_quote" id="2" description="Top of book quote for option">
+        <field name="symbol" id="1" type="Symbol"/>
+        <field name="seq_num" id="2" type="uint64"/>
+        <field name="reporting_exg" id="3" type="MIC"/>
+        <field name="ts" id="4" type="Timestamp"/>
+        <field name="option_type" id="5" type="OptionType"/>
+        <field name="expiration" id="6" type="Timestamp"/>
+        <field name="strike" id="7" type="Price"/>
+        <field name="bid" id="8" type="Price"/>
+        <field name="ask" id="9" type="Price"/>
+        <field name="bid_size" id="10" type="uint32"/>
+        <field name="ask_size" id="11" type="uint32"/>
+        <field name="condition" id="12" type="QuoteCondition"/>
+    </sbe:message>
+    <sbe:message name="halt" id="3" description="Halt Status Change For Instrument">
+        <field name="symbol" id="1" type="Symbol"/>
+        <field name="seq_num" id="2" type="uint64"/>
+        <field name="reporting_exg" id="3" type="MIC"/>
+        <field name="ts" id="4" type="Timestamp"/>
+        <field name="halt_type" id="5" type="HaltType"/>
+        <field name="halt_status" id="6" type="HaltStatus"/>
+    </sbe:message>
+    <sbe:message name="equity_trade" id="4" description="Trade for Equity">
+        <field name="symbol" id="1" type="Symbol"/>
+        <field name="seq_num" id="2" type="uint64"/>
+        <field name="reporting_exg" id="3" type="MIC"/>
+        <field name="ts" id="4" type="Timestamp"/>
+        <field name="price" id="5" type="Price"/>
+        <field name="size" id="6" type="uint32"/>
+        <field name="vol" id="7" type="uint32"/>
+        <field name="t_vol" id="8" type="uint32"/>
+        <field name="condition" id="9" type="TradeCondition"/>
+    </sbe:message>
+    <sbe:message name="equity_nbbo" id="5" description="Best Bid And Ask Hybrid Quote">
+        <field name="symbol" id="1" type="Symbol"/>
+        <field name="seq_num" id="2" type="uint64"/>
+        <field name="ts" id="3" type="Timestamp"/>
+        <field name="best_bid_exg" id="4" type="MIC"/>
+        <field name="best_ask_exg" id="5" type="MIC"/>
+        <field name="best_bid" id="6" type="Price"/>
+        <field name="best_ask" id="7" type="Price"/>
+        <field name="best_bid_size" id="8" type="uint32"/>
+        <field name="best_ask_size" id="9" type="uint32"/>
+        <field name="best_bid_condition" id="10" type="QuoteCondition"/>
+        <field name="best_ask_condition" id="11" type="QuoteCondition"/>
+    </sbe:message>
+</sbe:messageSchema>

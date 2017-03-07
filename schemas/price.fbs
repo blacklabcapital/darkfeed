@@ -1,0 +1,14 @@
+include "currency.fbs";
+namespace darkfeed.schemas.fb;
+
+struct Price {
+    ///< price in "precision" units
+    price:uint;
+    ///< power of 10 representing magnitude of price. Eg; -2 for cents
+    precision:byte;
+    ///< minimum quoted tick size in "precision" units. Eg; precision of -2 and precision_scalar of 5 means "price" is quoted in cents with a minimum tick of 5 cents. price must be a multiple of tick_size
+    tick_size:ubyte;
+    ///< base currency for this price
+    currency:Currency;
+}
+

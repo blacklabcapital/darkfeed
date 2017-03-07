@@ -1,0 +1,8 @@
+namespace darkfeed.schemas.fb;
+
+struct Timestamp {
+    unix:uint; //unix timestamp
+    ns:uint; //nanosecond offset
+    offset:byte; //offset from UTC in whole hours of original timestamp
+    dst:bool; //whether DST is active
+}

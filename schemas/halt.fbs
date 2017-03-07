@@ -1,0 +1,87 @@
+include "timestamps.fbs";
+include "exchanges.fbs";
+include "symbol.fbs";
+namespace darkfeed.schemas.fb;
+
+enum HaltType : ubyte {
+    ///< No Halt Type
+    none = 0, 
+    ///< Unspecified news-related halt
+    news = 1, 
+    ///< Denotes a regulatory trading halt when relevant news influencing the security is being disseminated. Trading is suspended until the primary market determines that an adequate publication or disclosure of information has occurred.
+    news_disseminated = 2, 
+    ///< Denotes a non-regulatory halt condition where there is a significant imbalance of buy or sell orders.
+    order_imbalance = 3, 
+    ///< Denotes a non-regulatory Trading Halt. The ability to trade a security by a Participant is temporarily inhibited due to a systems, equipment or communications facility problem or for other technical reasons.
+    equipment_change = 4,
+    ///< Unspecified halt requiring additional information before resuming trading.
+    pending_additional_info = 5,
+    ///< A financial status designation used to denote the ability to create new shares of this Exchange Traded Product (ETP) has been temporarily suspended by the ETP Issuer. ETPs that are closed for Creations typically are allowed to continue trading on the listing market once the ETP Issuer publishes the press release.
+    suspended = 6,
+    ///< Denotes a regulatory Trading halt mandated by the SEC for this security.
+    sec = 7, 
+    ///< Unspecified halt.
+    not_specified = 8,
+    ///< Denotes a five-minute regulatory trading halt (pause) for an individual security that does not exit a Limit State within 15 seconds
+    luld_pause = 9,
+    ///< The level 1 market-wide circuit breaker (MWCB) has been triggered due to a 7%+ decline in S&P500 from last-session close. If before 3:25PM, all securities are halted for 15 min. If at or after 3:25PM trading continues unless there is a Level 3 MWCB.
+    marketwide_halt_level1 = 10,
+    ///< the level 2 market-wide circuit breaker (MWCB) has been triggered due to a 13% decline in S&P500 from last-session close. If before 3:25PM all securities are halted for 15 min. If after 3:25PM, trading continues unless there is a Level 3 MWCB.
+    marketwide_halt_level2 = 11,
+    ///< The level 3 market-wide circuit breaker (MWCB) has been triggered due to a 20% decline in S&P500 from last-session close. All equities are halted for the remainder of the day.
+    marketwide_halt_level3 = 12,
+    ///< Indicates the deactivation of a market-wide circuit breaker. This should only occur for level 1 and level 2 MWCB events.
+    marketwide_halt_resume = 13,
+    ///< Denotes a five-minute regulatory trading halt (pause) for an individual security that does not exit a Limit State within 15 seconds. The limit-state is calculated depending on the exchange. This is 5% for >$3.00 S&P 500, Russel 1000 securities, and certain ETPs, 10% for all other securities > $3.00. See: http://cdn.batstrading.com/resources/membership/BATS_US_Equities_Limit_Up_Limit_Down_FAQ.pdf
+    luld_straddle = 14,
+    ///< Halt due to unusual market activity. (Note: Find CTA Multicast equivalent)
+    extraordinary_market_activity = 15,
+    ///< Indicates an unspecified halt for an exchange traded product
+    etf = 16,
+    ///< Indicates a halt issued by an exchange for failure to meet listing or other unspecified regulatory requirements
+    non_compliance = 17,
+    ///< A regulatory halt issued for equities not meeting reporting requirements
+    filings_not_current = 18,
+    ///< Halt reason issued for exchange operations being impacted. For instance, a storm.
+    operations = 19,
+    ///< Pseudo-halt generated for IPO not occurring at market open
+    ipo_pending = 20,
+    ///< Halted due to an intra-day event like a split. Rare.
+    corporate_action = 21,
+    ///< Quotations have temporarily become unavailable for an unspecified reason.
+    quote_unavailable = 22,
+    ///< Generic halt condition for a single stock
+    single_stock_pause = 23,
+    ///< Generic resume condition for a single stock
+    single_stock_pause_resume = 24
+}
+
+enum HaltStatus : ubyte {
+    ///< Symbol is not currently halted
+    none = 0,
+    ///< Symbol was halted and is now resuming
+    resume = 1,
+    ///< Symbol is delayed at opening
+    delay = 2,
+    ///< Symbol is currently halted
+    halted = 3,
+    ///< Symbol is halted at open and will not trade during this session. Further quotations may not be issued.
+    no_open_resume = 4
+}
+
+table Halt {
+    ///< Tickcaster monotonically increasing sequence number
+    seq_num:ulong;
+    ///< Symbol corresponding to the halt
+    symbol:Symbol;
+    ///< Exchange (if any) issuing the halt.
+    reporting_exg:MIC;
+    ///< Timestamp when the halt was issued
+    ts:Timestamp;
+    ///< Type of halt
+    halt_type:HaltType;
+    ///< Symbol's current status
+    halt_status:HaltStatus;
+}
+
+root_type Halt;
