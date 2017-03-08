@@ -10,7 +10,7 @@ You can use darkfeed to power your electronic trading systems, consolidated mark
 Darkfeed is in pre-alpha and under active development as we migrate some of our proprietary in-house code to use darkfeed's open implementations. While we do make an effort to provide thorough testing, you may encounter bugs. Please make sure you do your own sanity checking before deploying to production. If you do encounter an issue, report it or submit a pull request!
 
 ##Design Philosophy
-Darkfeed tries to go for simple, practical implementations that cover typical use cases instead of unwieldly complex implementations that aim to be a "one size fits all". But if it doesn't, it's usually easy enough to extend existing data structures yourself (and provide your own serialization/deserialization functions).
+Darkfeed strives for simple, practical implementations that cover typical use cases instead of unwieldly complex implementations that aim to be a "one size fits all". But if it doesn't, it's usually easy enough to extend existing data structures yourself (and provide your own serialization/deserialization functions).
 
 While we aim to maximize performance, a great deal of effort has gone into convenience and safety. We could certainly squeeze out a few microseconds of latency by removing error checking code, but in most cases you'll want the sanity checking there. If your strategy depends on ultra low latency, you should be using native HDL on FGPAs and not a CPU-based library anyways.
 
@@ -31,17 +31,17 @@ DarkFeed features a `Price` type that internally stores an integer representatio
 Since the currency is stored, this enables easy currency conversions if, for instance, you wanted to maintain worldwide prices of precious metals across global exchanges.
 
 ###Multi-Instrument Support
-While currently only equities are supported, support for American and European options, commodities, forex, and other exotic derivatives is planned. The design of DarkFeed is extensible so you can always create your own custom instrument by inheriting from an existing one.
+While currently only equities and options are supported, support for futures, futures options, commodities, forex, and other exotic derivatives is planned. The design of DarkFeed is extensible so you can always create your own custom instrument by inheriting from an existing one.
 
 ###Low Overhead
-Dynamic memory allocation is minimized in the hot code path (currently only in serialization) and should soon be eliminated altogether. 
+Dynamic memory allocation is minimized in the hot code path (currently only in serialization) and should soon be eliminated altogether in the C++ implementation.
 
 Lockfree data structures using hardware support in modern CPUs ensure reliable performance even in high fanout environments (many threads reading from a single data structure).
 
-###Simple Serialization
-DarkFeed uses Google Flatbuffers to serialize market data in a compact, portable, binary representation. Flatbuffers is orders of magnitude faster than JSON or Protocol Buffers and features implementations in Go, Python, C++, Java, and Rust (unofficial). This enables clients to use most common languages. If a language is not supported by flatbuffers, one can always create a wrapper over generated C or C++.
+In addition, the C++ implementation takes advantage of SSE instructions available on modern CPUs when available.
 
-While there is a copy step and some dynamic memory allocation in serializing to flatbuffers, we've found excellent and predictable performance when linking with the tcmalloc allocator. Even consolidated OPRA feeds should be no problem. Integration with an ephemeral ring-allocator in the near-future should further reduce latency.
+###Simple Serialization
+Darkfeed allows you to serialize your market data using any of the built in serializers or you can write your own. Currently Google Flatbuffers and Simple Binary Encoding are both supported. The former offers broader language support while the latter offers superior performance.
 
 ###FIX Conformance
 Exchanges have plenty of unique ways of sending common fields like quote and trade conditions. We default to the definitions in the latest FIX standard (currently 5.0SP2). This enables consolidation of dedicated feeds into a sensible common representation.
@@ -50,4 +50,3 @@ We also use ISO 10383 MIC codes to represent trading venues rather than often in
 
 ###Timestamp Operations
 We use Google's CCTZ to provide civil time operations but maintain an internal absolute time representation using the UNIX epoch and microseconds. This enables easy and performant comparison between timestamps and calculation of elapsed times, etc.
-
