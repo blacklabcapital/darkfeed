@@ -33,7 +33,7 @@ dependencies:
                 sudo cp ~/re2/build/lib/libre2* /usr/lib/
                 echo "Cached RE2 Installed"
             fi
-        - cd cpp && mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=debug .. && make test
+        - cd cpp && mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=debug .. && make
 
 test:
     override:
