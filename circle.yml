@@ -9,9 +9,6 @@ checkout:
         - git submodule update --recursive --init
 
 dependencies:
-    pre:
-        - sudo apt-get update ; sudo apt-get -y upgrade ; 
-
     cache_directories:
         - ~/cmake-3.7.2-Linux-x86_64
 
