@@ -27,10 +27,10 @@ dependencies:
         - >
             if [ ! -d ~/re2 ]; then
                 echo "No cache - building RE2"
-                cd ~ && wget --quiet -O re2.tar.gz https://github.com/google/re2/archive/2017-03-01.tar.gz && mkdir -p re2 && tar -xvf re2.tar.gz -C re2 --strip-components=1 && cd re2 && mkdir -p build && make && make prefix=build install && sudo cp -r build/include/* /usr/include && sudo cp build/lib/libre2* /usr/lib64/*
+                cd ~ && wget --quiet -O re2.tar.gz https://github.com/google/re2/archive/2017-03-01.tar.gz && mkdir -p re2 && tar -xvf re2.tar.gz -C re2 --strip-components=1 && cd re2 && mkdir -p build && make && make prefix=build install && sudo cp -r build/include/* /usr/include && sudo cp build/lib/libre2* /usr/lib/*
             else
                 sudo cp -r ~/re2/build/include/* /usr/include
-                sudo cp ~/re2/build/lib/libre2* /usr/lib64/
+                sudo cp ~/re2/build/lib/libre2* /usr/lib/
                 echo "Cached RE2 Installed"
             fi
         - cd cpp && mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=debug .. && make test
