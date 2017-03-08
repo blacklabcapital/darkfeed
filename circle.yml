@@ -11,7 +11,7 @@ checkout:
 dependencies:
     pre:
         - sudo apt-get update
-        - sudo apt-get install google-perftools
+        - sudo apt-get install google-perftools libgoogle-perftools-dev
     cache_directories:
         - ~/cmake-3.7.2-Linux-x86_64
         - ~/re2
