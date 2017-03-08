@@ -20,14 +20,14 @@ dependencies:
         - >
             if [ ! -d ~/cmake-3.6.2-Linux-x86_64 ]; then
                 echo "No cache - building CMake"
-                cd ~ && wget --quiet https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.tar.gz && tar -xvf cmake-3.7.2-Linux-x86_64.tar.gz
+                cd ~ && wget --quiet https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.tar.gz && tar -xf cmake-3.7.2-Linux-x86_64.tar.gz
             else
                 echo "Cached CMake found"
             fi
         - >
             if [ ! -d ~/re2 ]; then
                 echo "No cache - building RE2"
-                cd ~ && wget --quiet -O re2.tar.gz https://github.com/google/re2/archive/2017-03-01.tar.gz && mkdir -p re2 && tar -xvf re2.tar.gz -C re2 --strip-components=1 && cd re2 && mkdir -p build && make && make prefix=build install && sudo cp -r build/include/* /usr/include && sudo cp build/lib/libre2* /usr/lib/
+                cd ~ && wget --quiet -O re2.tar.gz https://github.com/google/re2/archive/2017-03-01.tar.gz && mkdir -p re2 && tar -xf re2.tar.gz -C re2 --strip-components=1 && cd re2 && mkdir -p build && make && make prefix=build install && sudo cp -r build/include/* /usr/include && sudo cp build/lib/libre2* /usr/lib/
             else
                 sudo cp -r ~/re2/build/include/* /usr/include
                 sudo cp ~/re2/build/lib/libre2* /usr/lib/
@@ -37,4 +37,4 @@ dependencies:
 
 test:
     override:
-        - cd cpp/build/test && ./unittests
+        - cd /home/ubuntu/darkfeed/cpp/build/tests && ./unit_tests
