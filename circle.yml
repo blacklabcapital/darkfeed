@@ -20,8 +20,8 @@ dependencies:
             else
                 echo "Cached CMake found"
             fi
-        - cd cpp && cmake -DCMAKE_BUILD_TYPE=debug .. && make
+        - cd cpp && mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=debug .. && make
 
 test:
     override:
-        - cd cpp/test && ./unittests
+        - cd cpp/build/test && ./unittests
