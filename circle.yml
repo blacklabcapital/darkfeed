@@ -4,9 +4,13 @@ machine:
     environment:
         PATH: "/home/ubuntu/cmake-3.7.2-Linux-x86_64/bin:$PATH"
 
+checkout:
+    post:
+        - git submodule update --recursive --init
+
 dependencies:
     pre:
-        - sudo apt-get update ; sudo apt-get upgrade ; 
+        - sudo apt-get update ; sudo apt-get -y upgrade ; 
 
     cache_directories:
         - ~/cmake-3.7.2-Linux-x86_64
@@ -19,6 +23,7 @@ dependencies:
             else
                 echo "Cached CMake found"
             fi
+        - cd cpp && cmake -DCMAKE_BUILD_TYPE=debug .. && make
 
 test:
     override:
