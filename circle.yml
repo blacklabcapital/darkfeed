@@ -9,6 +9,9 @@ checkout:
         - git submodule update --recursive --init
 
 dependencies:
+    pre:
+        - apt-get update
+        - apt-get install google-perftools re2
     cache_directories:
         - ~/cmake-3.7.2-Linux-x86_64
 

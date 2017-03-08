@@ -10,3 +10,7 @@
 	path = cpp/external/cctz
 	url = https://github.com/google/cctz.git
 	branch = master
+[submodule "cpp/external/flatbuffers"]
+	path = cpp/external/flatbuffers
+	url = https://github.com/google/flatbuffers.git
+	branch = master
