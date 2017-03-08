@@ -1,23 +1,40 @@
 machine:
-  timezone:
-    America/New_York
-  environment:
-    PATH: "/home/ubuntu/cmake-3.7.2-Linux-x86_64/bin:$PATH"
+    timezone:
+        America/New_York
+    environment:
+        PATH: "/home/ubuntu/cmake-3.7.2-Linux-x86_64/bin:$PATH"
+
+checkout:
+    post:
+        - git submodule update --recursive --init
+
 dependencies:
+    pre:
+        - sudo apt-get update
+        - sudo apt-get install google-perftools libgoogle-perftools-dev doxygen graphviz
     cache_directories:
         - ~/cmake-3.7.2-Linux-x86_64
-    pre:
-        - sudo apt-get update ; sudo apt-get upgrade ; 
+        - ~/re2
+
     override:
         - >
-        if [ ! -d ~/cmake-3.6.2-Linux-x86_64 ]; then
-            echo "No cache - building CMake"
-            cd ~ && wget --quiet https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.tar.gz && tar -xvf cmake-3.7.2-Linux-x86_64.tar.gz
-        else
-            echo "Cached CMake found"
-        fi
-        - cd cpp && cmake -DCMAKE_BUILD_TYPE=debug .. && make
-        - make
+            if [ ! -d ~/cmake-3.6.2-Linux-x86_64 ]; then
+                echo "No cache - building CMake"
+                cd ~ && wget --quiet https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.tar.gz && tar -xf cmake-3.7.2-Linux-x86_64.tar.gz
+            else
+                echo "Cached CMake found"
+            fi
+        - >
+            if [ ! -d ~/re2 ]; then
+                echo "No cache - building RE2"
+                cd ~ && wget --quiet -O re2.tar.gz https://github.com/google/re2/archive/2017-03-01.tar.gz && mkdir -p re2 && tar -xf re2.tar.gz -C re2 --strip-components=1 && cd re2 && mkdir -p build && make --silent && make --silent prefix=build install && sudo cp -r build/include/* /usr/include && sudo cp build/lib/libre2* /usr/lib/
+            else
+                sudo cp -r ~/re2/build/include/* /usr/include
+                sudo cp ~/re2/build/lib/libre2* /usr/lib/
+                echo "Cached RE2 Installed"
+            fi
+        - cd cpp && mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=debug .. && make
+
 test:
     override:
-        - cd cpp/test && ./unittests
+        - cd /home/ubuntu/darkfeed/cpp/build/tests && ./unit_tests

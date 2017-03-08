@@ -1,4 +1,5 @@
 # Darkfeed
+![circleci](https://circleci.com/gh/blacklabcapital/darkfeed/tree/master.svg?style=shield&circle-token=860686d1cde81bd808bf2eb611ccdd96f5cf9412)
 
 ##Description
 Darkfeed aims to provide simple, cross-platform, cross-language, open-source implementations of commonly used data structures and tools used in electronic trading.

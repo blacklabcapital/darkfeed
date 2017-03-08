@@ -35,7 +35,6 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
 endif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
 set(CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG -Wall -O3 -g")
 
-find_package(FlatBuffers REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(RE2 REQUIRED)
 find_package(Gperftools REQUIRED)
@@ -59,6 +58,9 @@ include_directories(external/xxHash)
 #Install SBE
 execute_process(COMMAND git submodule update --init -- external/simple-binary-encoding ${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/external/simple-binary-encoding/sbe-tool/src/main/cpp)
+#Install Flatbuffers
+execute_process(COMMAND git submodule update --init -- external/flatbuffers ${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_SOURCE_DIR}/external/flatbuffers/include)
 
 link_directories(/usr/local/lib)
 link_directories(/usr/local/lib64)
