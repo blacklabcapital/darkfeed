@@ -11,7 +11,7 @@ checkout:
 dependencies:
     pre:
         - sudo apt-get update
-        - sudo apt-get install google-perftools re2
+        - sudo apt-get install google-perftools libre2 libre2-dev
     cache_directories:
         - ~/cmake-3.7.2-Linux-x86_64
 
