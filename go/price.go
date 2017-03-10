@@ -82,3 +82,23 @@ func (p Price) SetPrecision(precision int8, ticksize uint8) {
 		p.Price = roundToTickSize(p.Price,p.TickSize)
 	}
 }
+
+/// Returns price using the quoted precision as a double precision floating point number
+func (p Price) AsFloat64() float64 {
+	return float64(p.Price) * pow10[POW10ZEROIDX + p.Precision]
+}
+
+/// Returns price using the quoted precision as a single precision floating point number
+func (p Price) AsFloat32() float32 {
+	return float32(p.Price) * pow10f[POW10ZEROIDX + p.Precision]
+}
+
+/// Returns price member as a uint32
+func (p Price) AsUInt32() uint32 {
+	return p.Price
+}
+
+/// Returns price member as an int
+func (p Price) AsInt() int {
+	return int(p.Price)
+}
