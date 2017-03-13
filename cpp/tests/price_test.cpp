@@ -32,7 +32,7 @@ TEST(Price, IntegerConstructor)
     ASSERT_EQ(Currency::USD, p1.currency);
 
     //hundredth of cent precision, 7 hundredth of cent minimum tick size
-    Price p2((uint32_t) 1385217, Currency::GBP, -4, 7);
+    Price p2((uint32_t) 1385216, Currency::GBP, -4, 7);
     ASSERT_EQ(1385216, p2.price); //should round down due to tick size of 7
     ASSERT_EQ(-4, p2.precision);
     ASSERT_EQ(7, p2.tick_size);
@@ -68,7 +68,7 @@ TEST(Price, AsFloat)
 
 TEST(Price, AsDouble)
 {
-    Price p((uint32_t) 1385217, Currency::GBP, -4, 7);
+    Price p((uint32_t) 1385216, Currency::GBP, -4, 7);
     float fp = p.as<float>();
     ASSERT_FLOAT_EQ(138.5216, fp);
 }
@@ -76,7 +76,7 @@ TEST(Price, AsDouble)
 
 TEST(Price, SetPrecision)
 {
-    Price p((uint32_t) 1385217, Currency::GBP, -4, 7);
+    Price p((uint32_t) 1385216, Currency::GBP, -4, 7);
     p.set_precision(-6);
     ASSERT_EQ(-6, p.precision);
     ASSERT_EQ(138521600, p.price);
