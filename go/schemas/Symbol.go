@@ -79,8 +79,8 @@ func SymbolAddRoot(builder *flatbuffers.Builder, root flatbuffers.UOffsetT) {
 func SymbolAddListingExg(builder *flatbuffers.Builder, listingExg byte) {
 	builder.PrependByteSlot(1, listingExg, 0)
 }
-func SymbolAddType(builder *flatbuffers.Builder, type byte) {
-	builder.PrependByteSlot(2, type, 0)
+func SymbolAddType(builder *flatbuffers.Builder, _type byte) {
+	builder.PrependByteSlot(2, _type, 0)
 }
 func SymbolAddSeries(builder *flatbuffers.Builder, series int8) {
 	builder.PrependInt8Slot(3, series, 0)

@@ -3,6 +3,7 @@ package darkfeed
 var pow10 = []float64{0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000}
 var pow10f = []float32{0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000}
 var pow10u32 = []uint32{1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000}
+
 const POW10ZEROIDX = 6 //offset of 10^0 for float pow10 arrays
 
 type Price struct {
@@ -14,12 +15,12 @@ type Price struct {
 
 func roundToTickSize(p uint32, tk uint8) uint32 {
 	var cutoff uint32
-	var r uint32 = p % uint32(tk)
 	if tk%2 != 0 {
 		cutoff = uint32(tk)/2 + 1
 	} else {
 		cutoff = uint32(tk)
 	}
+	var r uint32 = p % uint32(tk)
 	if r >= cutoff {
 		return p + uint32(tk) - r
 	}
@@ -37,10 +38,10 @@ func PriceFromFloat64(price float64, precision int8, ticksize uint8, currency ui
 		pr = roundToTickSize(pr, ticksize)
 	}
 	var p = Price{
-		Price: pr,
+		Price:     pr,
 		Precision: precision,
-		TickSize: ticksize,
-		Currency: currency,
+		TickSize:  ticksize,
+		Currency:  currency,
 	}
 	return p
 }
@@ -51,14 +52,14 @@ func PriceFromFloat64(price float64, precision int8, ticksize uint8, currency ui
 // ticksize: The minimum quoted tick size as a multiple of precision units. Eg; if precision is -2 and ticksize is 5, the price is always a multiple of 5 cents
 // currency: The currency code
 func PriceFromUInt32(price uint32, precision int8, ticksize uint8, currency uint8) Price {
-	var p = Price {
-		Price: price,
+	var p = Price{
+		Price:     price,
 		Precision: precision,
-		TickSize: ticksize,
-		Currency: currency,
+		TickSize:  ticksize,
+		Currency:  currency,
 	}
-	if price % uint32(ticksize) != 0 {
-		p.Price = roundToTickSize(price,ticksize)
+	if price%uint32(ticksize) != 0 {
+		p.Price = roundToTickSize(price, ticksize)
 	}
 	return p
 }
@@ -66,39 +67,39 @@ func PriceFromUInt32(price uint32, precision int8, ticksize uint8, currency uint
 // Resamples price using the given precision
 // precision The desired precision
 // ticksize The new desired minimum tick size
-func (p Price) SetPrecision(precision int8, ticksize uint8) {
+func (p *Price) SetPrecision(precision int8, ticksize uint8) {
 	if precision == p.Precision {
 		return
 	} else if precision < p.Precision {
-		p.Price *= pow10u32[p.Precision - precision]
+		p.Price *= pow10u32[p.Precision-precision]
 	} else {
-		mf := pow10u32[precision - p.Precision]
+		mf := pow10u32[precision-p.Precision]
 		p.Price += mf / 2 //necessary for proper rounding when reducing precision
 		p.Price /= mf
 	}
 	p.TickSize = ticksize
 	p.Precision = precision
-	if (ticksize != 1) && (p.Price % uint32(p.TickSize) != 0) {
-		p.Price = roundToTickSize(p.Price,p.TickSize)
+	if (ticksize != 1) && (p.Price%uint32(p.TickSize) != 0) {
+		p.Price = roundToTickSize(p.Price, p.TickSize)
 	}
 }
 
 /// Returns price using the quoted precision as a double precision floating point number
-func (p Price) AsFloat64() float64 {
-	return float64(p.Price) * pow10[POW10ZEROIDX + p.Precision]
+func (p *Price) AsFloat64() float64 {
+	return float64(p.Price) * pow10[POW10ZEROIDX+p.Precision]
 }
 
 /// Returns price using the quoted precision as a single precision floating point number
-func (p Price) AsFloat32() float32 {
-	return float32(p.Price) * pow10f[POW10ZEROIDX + p.Precision]
+func (p *Price) AsFloat32() float32 {
+	return float32(p.Price) * pow10f[POW10ZEROIDX+p.Precision]
 }
 
 /// Returns price member as a uint32
-func (p Price) AsUInt32() uint32 {
+func (p *Price) AsUInt32() uint32 {
 	return p.Price
 }
 
 /// Returns price member as an int
-func (p Price) AsInt() int {
+func (p *Price) AsInt() int {
 	return int(p.Price)
 }
