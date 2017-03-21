@@ -1,6 +1,6 @@
-#Darkfeed CPP
+# Darkfeed CPP
 
-##Prerequisites
+## Prerequisites
 Darkfeed only requires Google's gperftools to be installed (for `libtcmalloc_minimal`) and the RE2 regex library. If you wish to build documentation, you'll also need doxygen and graphviz. If LaTeX is installed, latex documentation will also be built.
 
 On CentOS/RHEL you can simply do: `sudo yum install gperftools re2 re2-devel doxygen graphviz`
@@ -9,7 +9,7 @@ On Ubuntu you can simply do: `sudo apt-get install google-perftools libgoogle-pe
 
 On Arch these packages are available via `sudo pacman -S gperftools re2 doxygen graphviz`
 
-##Building
+## Building
 Darkfeed pulls in other dependencies via submodules. So first do:
 ```
 git submodule update --recursive --init
@@ -42,7 +42,7 @@ make doc
 ```
 Note that if you want LaTeX documentation to be built you must go to the `LaTeX` directory and run the makefile.
 
-##Portability
+## Portability
 Darkfeed's C++ implementation is tuned for modern Intel server CPUs that support SSE4.2 or later. Certain functionality like hardware-accelerated CRC32C checksums will be much slower on unsupported CPUs (since they'll rely on a software fallback). Currently only little-endian CPUs are supported.
 
 Darkfeed is tested via the CI system on Ubuntu 14.04, on our private servers on RHEL 7.3, and during development on OSX 10.12.
