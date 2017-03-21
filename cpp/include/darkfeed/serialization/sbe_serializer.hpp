@@ -9,7 +9,7 @@ namespace darkfeed
 /// @ingroup serialization
 class SBESerializer {
  public:
-    /// @brief Serializes argument using appropriate SBE schema. No framing is needed.
+    /// @brief Serializes argument using appropriate SBE schema. Framing is added within the SBE header.
     /// @param buf The buffer to serialize the object to.
     /// @param buf_size The size of the buffer in bytes
     /// @warning buf must be sufficiently large to accomodate the resulting data. It's recommended to round it up an order of magnitude larger than the sum of the fields in bytes. Eg; for a 200 byte message, make this 1kB.
