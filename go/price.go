@@ -103,3 +103,83 @@ func (p *Price) AsUInt32() uint32 {
 func (p *Price) AsInt() int {
 	return int(p.Price)
 }
+
+/// Checks if price is less than some reference price
+func (p *Price) LessThan(x *Price) bool {
+	//check that currencies are the same
+	if p.Currency != x.Currency {
+		return false
+	} else if p.Precision == x.Precision {
+		return p.Price < x.Price
+	} else if p.Precision > x.Precision {
+		var upsampled uint32 = p.Price * pow10u32[p.Precision - x.Precision]
+		return upsampled < x.Price
+	} else {
+		var upsampled uint32 = p.Price * pow10u32[x.Precision - p.Precision]
+		return p.Price < upsampled
+	}
+}
+
+/// Checks if price is less than or equal to some reference price
+func (p *Price) LessThanEq(x *Price) bool {
+	//check that currencies are the same
+	if p.Currency != x.Currency {
+		return false
+	} else if p.Precision == x.Precision {
+		return p.Price <= x.Price
+	} else if p.Precision > x.Precision {
+		var upsampled uint32 = p.Price * pow10u32[p.Precision - x.Precision]
+		return upsampled <= x.Price
+	} else {
+		var upsampled uint32 = p.Price * pow10u32[x.Precision - p.Precision]
+		return p.Price <= upsampled
+	}
+}
+
+/// Checks if price is greater than some reference price
+func (p *Price) GreaterThan(x *Price) bool {
+	//check that currencies are the same
+	if p.Currency != x.Currency {
+		return false
+	} else if p.Precision == x.Precision {
+		return p.Price > x.Price
+	} else if p.Precision > x.Precision {
+		var upsampled uint32 = p.Price * pow10u32[p.Precision - x.Precision]
+		return upsampled > x.Price
+	} else {
+		var upsampled uint32 = p.Price * pow10u32[x.Precision - p.Precision]
+		return p.Price > upsampled
+	}
+}
+
+/// Checks if price is greater or equal to some reference price
+func (p *Price) GreaterThanEq(x *Price) bool {
+	//check that currencies are the same
+	if p.Currency != x.Currency {
+		return false
+	} else if p.Precision == x.Precision {
+		return p.Price >= x.Price
+	} else if p.Precision > x.Precision {
+		var upsampled uint32 = p.Price * pow10u32[p.Precision - x.Precision]
+		return upsampled >= x.Price
+	} else {
+		var upsampled uint32 = p.Price * pow10u32[x.Precision - p.Precision]
+		return p.Price >= upsampled
+	}
+}
+
+/// Checks if price is equal to some reference price
+func (p *Price) Equals(x *Price) bool {
+	//check that currencies are the same
+	if p.Currency != x.Currency {
+		return false
+	} else if p.Precision == x.Precision {
+		return p.Price == x.Price
+	} else if p.Precision > x.Precision {
+		var upsampled uint32 = p.Price * pow10u32[p.Precision - x.Precision]
+		return upsampled == x.Price
+	} else {
+		var upsampled uint32 = p.Price * pow10u32[x.Precision - p.Precision]
+		return p.Price == upsampled
+	}
+}
