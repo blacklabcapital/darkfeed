@@ -12,9 +12,11 @@ dependencies:
     pre:
         - sudo apt-get update
         - sudo apt-get install google-perftools libgoogle-perftools-dev doxygen graphviz
+        - go get "github.com/stretchr/testify/assert" && go get "github.com/google/flatbuffers/go"
     cache_directories:
         - ~/cmake-3.7.2-Linux-x86_64
         - ~/re2
+        - ~/.go_workspace
 
     override:
         - >
@@ -38,4 +40,4 @@ dependencies:
 test:
     override:
         - cd /home/ubuntu/darkfeed/cpp/build/tests && ./unit_tests
-        - cd /home/ubuntu/darkfeed/go/ && go get -v ../... && go test -v
+        - cd /home/ubuntu/darkfeed/go/ && go test -v
