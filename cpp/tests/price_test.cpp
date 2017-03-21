@@ -39,6 +39,7 @@ TEST(Price, IntegerConstructor)
     ASSERT_EQ(Currency::GBP, p2.currency);
 }
 
+
 TEST(Price, CopyConstructor)
 {
     Price p((std::uint32_t) 138523, Currency::GBP, -4, 7);
@@ -52,7 +53,7 @@ TEST(Price, CopyConstructor)
 
 TEST(Price, AsInteger)
 {
-    Price p((uint32_t) 1385221, Currency::GBP, -4, 7);
+    Price p((uint32_t) 1385223, Currency::GBP, -4, 7);
     uint32_t ip = p.as<uint32_t>();
     ASSERT_EQ(1385223, ip); //should round up due to tick size
 }
