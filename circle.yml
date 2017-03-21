@@ -38,3 +38,4 @@ dependencies:
 test:
     override:
         - cd /home/ubuntu/darkfeed/cpp/build/tests && ./unit_tests
+        - cd /home/ubuntu/darkfeed/go/ && go get -v ../... && go test -v
