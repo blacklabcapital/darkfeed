@@ -1,9 +1,10 @@
 package darkfeed
 
 import (
+	"testing"
+
 	"./schemas"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestPrice_SetPrecision(t *testing.T) {
@@ -34,7 +35,6 @@ func TestPriceFromFloat64(t *testing.T) {
 	assert.Equal(t, -3, int(p2.Precision))
 	assert.Equal(t, 5, int(p2.TickSize))
 	assert.Equal(t, uint8(schemas.CurrencyCAD), p2.Currency)
-
 }
 
 func TestPriceFromUInt32(t *testing.T) {
@@ -92,4 +92,137 @@ func TestPrice_LessThan(t *testing.T) {
 	//lower price, lower precision
 	p7 := PriceFromFloat64(138.49, -1, 1, schemas.CurrencyUSD)
 	assert.False(t, p.LessThan(p7))
+}
+
+func TestPrice_GreaterThan(t *testing.T) {
+	p := PriceFromFloat64(138.50, -2, 1, schemas.CurrencyUSD)
+	gbp := PriceFromFloat64(138.50, -2, 1, schemas.CurrencyGBP)
+	assert.False(t, p.LessThan(gbp))
+
+	//higher price, equal precision
+	p2 := PriceFromFloat64(138.52, -2, 1, schemas.CurrencyUSD)
+	assert.False(t, p.GreaterThan(p2))
+	//lower price, equal precision
+	p3 := PriceFromFloat64(138.49, -2, 1, schemas.CurrencyUSD)
+	assert.True(t, p.GreaterThan(p3))
+	//higher price, greater precision
+	p4 := PriceFromFloat64(138.52, -4, 1, schemas.CurrencyUSD)
+	assert.False(t, p.GreaterThan(p4))
+	//lower price, greater precision
+	p5 := PriceFromFloat64(138.49, -4, 1, schemas.CurrencyUSD)
+	assert.True(t, p.GreaterThan(p5))
+	//higher price, lower precision
+	p6 := PriceFromFloat64(138.6, -1, 1, schemas.CurrencyUSD)
+	assert.False(t, p.GreaterThan(p6))
+	//lower price, lower precision
+	p7 := PriceFromFloat64(138.49, -1, 1, schemas.CurrencyUSD)
+	assert.True(t, p.GreaterThan(p7))
+}
+
+func TestPrice_LessThanEq(t *testing.T) {
+	p := PriceFromFloat64(138.50, -2, 1, schemas.CurrencyUSD)
+	gbp := PriceFromFloat64(138.50, -2, 1, schemas.CurrencyGBP)
+	assert.False(t, p.LessThanEq(gbp))
+
+	//higher price, equal precision
+	p2 := PriceFromFloat64(138.52, -2, 1, schemas.CurrencyUSD)
+	assert.True(t, p.LessThanEq(p2))
+	//lower price, equal precision
+	p3 := PriceFromFloat64(138.49, -2, 1, schemas.CurrencyUSD)
+	assert.False(t, p.LessThanEq(p3))
+	//equal price, equal precision
+	p4 := PriceFromFloat64(138.50, -2, 1, schemas.CurrencyUSD)
+	assert.True(t, p.LessThanEq(p4))
+
+	//higher price, greater precision
+	p5 := PriceFromFloat64(138.52, -4, 1, schemas.CurrencyUSD)
+	assert.True(t, p.LessThanEq(p5))
+	//lower price, greater precision
+	p6 := PriceFromFloat64(138.49, -4, 1, schemas.CurrencyUSD)
+	assert.False(t, p.LessThanEq(p6))
+	//equal price, greater precision
+	p7 := PriceFromFloat64(138.50, -4, 1, schemas.CurrencyUSD)
+	assert.True(t, p.LessThanEq(p7))
+
+	//higher price, lower precision
+	p8 := PriceFromFloat64(138.6, -1, 1, schemas.CurrencyUSD)
+	assert.True(t, p.LessThanEq(p8))
+	//lower price, lower precision
+	p9 := PriceFromFloat64(138.49, -1, 1, schemas.CurrencyUSD)
+	assert.False(t, p.LessThan(p9))
+	//equal price, lower precision
+	p10 := PriceFromFloat64(138.50, -1, 1, schemas.CurrencyUSD)
+	assert.True(t, p.LessThanEq(p10))
+}
+
+func TestPrice_GreaterThanEq(t *testing.T) {
+	p := PriceFromFloat64(138.50, -2, 1, schemas.CurrencyUSD)
+	gbp := PriceFromFloat64(138.50, -2, 1, schemas.CurrencyGBP)
+	assert.False(t, p.GreaterThanEq(gbp))
+
+	//higher price, equal precision
+	p2 := PriceFromFloat64(138.52, -2, 1, schemas.CurrencyUSD)
+	assert.False(t, p.GreaterThanEq(p2))
+	//lower price, equal precision
+	p3 := PriceFromFloat64(138.49, -2, 1, schemas.CurrencyUSD)
+	assert.True(t, p.GreaterThanEq(p3))
+	//equal price, equal precision
+	p4 := PriceFromFloat64(138.50, -2, 1, schemas.CurrencyUSD)
+	assert.True(t, p.GreaterThanEq(p4))
+
+	//higher price, greater precision
+	p5 := PriceFromFloat64(138.52, -4, 1, schemas.CurrencyUSD)
+	assert.False(t, p.GreaterThanEq(p5))
+	//lower price, greater precision
+	p6 := PriceFromFloat64(138.49, -4, 1, schemas.CurrencyUSD)
+	assert.True(t, p.GreaterThanEq(p6))
+	//equal price, greater precision
+	p7 := PriceFromFloat64(138.50, -4, 1, schemas.CurrencyUSD)
+	assert.True(t, p.GreaterThanEq(p7))
+
+	//higher price, lower precision
+	p8 := PriceFromFloat64(138.6, -1, 1, schemas.CurrencyUSD)
+	assert.False(t, p.GreaterThanEq(p8))
+	//lower price, lower precision
+	p9 := PriceFromFloat64(138.49, -1, 1, schemas.CurrencyUSD)
+	assert.True(t, p.GreaterThanEq(p9))
+	//equal price, lower precision
+	p10 := PriceFromFloat64(138.50, -1, 1, schemas.CurrencyUSD)
+	assert.True(t, p.GreaterThanEq(p10))
+}
+
+func TestPrice_Equals(t *testing.T) {
+	p := PriceFromFloat64(138.50, -2, 1, schemas.CurrencyUSD)
+	gbp := PriceFromFloat64(138.50, -2, 1, schemas.CurrencyGBP)
+	assert.False(t, p.Equals(gbp))
+
+	//higher price, equal precision
+	p2 := PriceFromFloat64(138.52, -2, 1, schemas.CurrencyUSD)
+	assert.False(t, p.Equals(p2))
+	//lower price, equal precision
+	p3 := PriceFromFloat64(138.49, -2, 1, schemas.CurrencyUSD)
+	assert.False(t, p.Equals(p3))
+	//equal price, equal precision
+	p4 := PriceFromFloat64(138.50, -2, 1, schemas.CurrencyUSD)
+	assert.True(t, p.LessThanEq(p4))
+
+	//higher price, greater precision
+	p5 := PriceFromFloat64(138.52, -4, 1, schemas.CurrencyUSD)
+	assert.False(t, p.Equals(p5))
+	//lower price, greater precision
+	p6 := PriceFromFloat64(138.49, -4, 1, schemas.CurrencyUSD)
+	assert.False(t, p.Equals(p6))
+	//equal price, greater precision
+	p7 := PriceFromFloat64(138.50, -4, 1, schemas.CurrencyUSD)
+	assert.True(t, p.LessThanEq(p7))
+
+	//higher price, lower precision
+	p8 := PriceFromFloat64(138.6, -1, 1, schemas.CurrencyUSD)
+	assert.False(t, p.Equals(p8))
+	//lower price, lower precision
+	p9 := PriceFromFloat64(138.49, -1, 1, schemas.CurrencyUSD)
+	assert.False(t, p.Equals(p9))
+	//equal price, lower precision
+	p10 := PriceFromFloat64(138.50, -1, 1, schemas.CurrencyUSD)
+	assert.True(t, p.Equals(p10))
 }
