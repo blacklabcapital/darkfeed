@@ -1,5 +1,5 @@
 # Darkfeed
-![circleci](https://circleci.com/gh/blacklabcapital/darkfeed/tree/master.svg?style=shield&circle-token=860686d1cde81bd808bf2eb611ccdd96f5cf9412)
+[![circleci](https://circleci.com/gh/blacklabcapital/darkfeed/tree/master.svg?style=shield&circle-token=860686d1cde81bd808bf2eb611ccdd96f5cf9412)](https://circleci.com/gh/blacklabcapital/darkfeed)
 
 ## Description
 
