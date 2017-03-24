@@ -32,11 +32,13 @@ func get_issue_type_code(s int) string {
 //Formats symbol in CTA/CQS/SIP format (eg; BRKB.PR.A)
 func (s Symbol) Format() string {
 	if s.IssueType == fb.IssueTypenormal {
-		if s.Series != '\x00' {
+		if s.Series == '\x00' {
 			return s.Root
 		} else {
 			return fmt.Sprintf("%s.%c", s.Root, s.Series)
 		}
+	} else if s.Series == '\x00' {
+		return fmt.Sprintf("%s.%s", s.Root, get_issue_type_code(s.IssueType))
 	}
 	return fmt.Sprintf("%s.%s.%c", s.Root, get_issue_type_code(s.IssueType), s.Series)
 }
