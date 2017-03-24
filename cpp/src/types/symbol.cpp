@@ -72,6 +72,8 @@ std::string Symbol::format() const
         else
             std::sprintf(out_sym, "%s.%c", root, series);
     }
+    else if (!series)
+        std::sprintf(out_sym, "%s.%s", root, get_symboltype_code(issue_type));
     else
         std::sprintf(out_sym, "%s.%s.%c", root, get_symboltype_code(issue_type), series);
     return std::string(out_sym);
