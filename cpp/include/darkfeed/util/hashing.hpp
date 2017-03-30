@@ -109,7 +109,6 @@ struct XXCStrHasher32 {
 /// @return The checksum as an unsigned 32 bit integer
 std::uint32_t crc32c(std::uint32_t crc, const void *buf, std::size_t len);
 
-
 /// @brief Struct used to hash strings using CRC32C
 struct CRC32CStrHasher {
     inline std::uint32_t operator()(const std::string &s)
@@ -118,13 +117,33 @@ struct CRC32CStrHasher {
     }
 };
 
-
 /// @brief Struct used to hash C-strings using CRC32C
 struct CRC32CCStrHasher {
     inline std::uint32_t operator()(const char *s)
     {
         std::size_t len = std::strlen(s);
         return CRC32C_FINISH(crc32c(CRC32C_INIT, s, len));
+    }
+};
+
+
+/// @brief Struct used to hash Symbols using CRC32C
+struct CRC32CSymHasher {
+    inline std::uint32_t operator()(const Symbol &s)
+    {
+        std::size_t len = std::strlen(s.root);
+        auto post_root = crc32c(CRC32C_INIT, s.root, len);
+        char modifiers[3] = {s.series, (char) s.listing_exg.mic, (char) s.issue_type};
+        return CRC32C_FINISH(crc32c(post_root, modifiers, 3));
+    }
+};
+
+
+/// @brief Struct used as a std::hash wrapper for identity hash
+struct IdentityHasher {
+    inline std::uint32_t operator()(const std::uint64_t x)
+    {
+        return (std::uint32_t) x;
     }
 };
 }
